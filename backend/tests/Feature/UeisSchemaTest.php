@@ -3,19 +3,17 @@
 namespace Tests\Feature;
 
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Tests\TestCase;
+use Tests\DatabaseTestCase;
 
 /**
  * Run against a disposable MariaDB TEST database (never production).
  * This test intentionally checks that the critical schema was created.
  */
-class UeisSchemaTest extends TestCase
+class UeisSchemaTest extends DatabaseTestCase
 {
-    use RefreshDatabase;
 
     public function test_every_custom_table_exists(): void
     {
@@ -77,9 +75,7 @@ class UeisSchemaTest extends TestCase
             'name' => 'Test Organizer', 'slug' => 'test-organizer',
             'organization_type' => 'campus_unit',
         ]);
-        $categoryId = DB::table('event_categories')->insertGetId([
-            'slug' => 'academic', 'name' => 'Academic',
-        ]);
+        $categoryId = \App\Models\EventCategory::firstOrCreate(['slug' => 'academic'], ['name' => 'Academic'])->id;
         $typeId = DB::table('event_types')->insertGetId([
             'event_category_id' => $categoryId,
             'slug' => 'test-seminar', 'name' => 'Test Seminar',
@@ -100,14 +96,14 @@ class UeisSchemaTest extends TestCase
             'event_snapshot' => json_encode(['title' => 'Test Event']),
         ];
 
-        $firstId = DB::table('registrations')->insertGetId($newRegistration('UEIS-TEST-01'));
+        $firstId = DB::table('registrations')->insertGetId($newRegistration('GANESPACE-TEST-01'));
         $this->assertDuplicateRejected(
-            fn () => DB::table('registrations')->insert($newRegistration('UEIS-TEST-02'))
+            fn () => DB::table('registrations')->insert($newRegistration('GANESPACE-TEST-02'))
         );
         DB::table('registrations')->where('id', $firstId)->update([
             'status' => 'cancelled', 'cancelled_at' => now('UTC'),
         ]);
-        DB::table('registrations')->insert($newRegistration('UEIS-TEST-03'));
+        DB::table('registrations')->insert($newRegistration('GANESPACE-TEST-03'));
         $this->assertSame(2, DB::table('registrations')->where('student_user_id', $userId)->count());
         $this->assertSame(1, DB::table('registrations')->where('student_user_id', $userId)
             ->where('status', 'active')->count());

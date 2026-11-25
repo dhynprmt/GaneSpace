@@ -4,6 +4,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
+use App\Http\Middleware\EnsureActiveAccount;
+use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\EnsureVerifiedStudent;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -12,7 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        // Laravel Sanctum SPA authentication
+        $middleware->statefulApi();
+
+        // UEIS middleware aliases
+        $middleware->alias([
+            'account.active' => EnsureActiveAccount::class,
+            'nim.verified' => EnsureVerifiedStudent::class,
+            'role' => EnsureRole::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

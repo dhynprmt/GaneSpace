@@ -30,4 +30,9 @@ Thumbs.db
 !/storage/app/public/.gitignore
 /storage/app/private/*
 !/storage/app/private/.gitignore
-/ueis_phase2_backup_*/
+/ueis_phase*_backup_*/
+!.env.testing.example
+
+/.venv-receipts/
+__pycache__/
+*.pyc

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /events/academic
+Allow: /events/non-academic
+Allow: /events/sempro
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /verify-email
+Disallow: /student/
+Disallow: /admin/
+Disallow: /master/
+
+Sitemap: https://ganespace.example.ac.id/sitemap.xml

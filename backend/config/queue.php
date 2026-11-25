@@ -44,6 +44,15 @@ return [
             'after_commit' => false,
         ],
 
+        'ganespace_mail' => [
+            'driver' => 'database',
+            'connection' => null,
+            'table' => 'jobs',
+            'queue' => 'ganespace-mail',
+            'retry_after' => 120,
+            'after_commit' => false,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => env('BEANSTALKD_QUEUE_HOST', 'localhost'),

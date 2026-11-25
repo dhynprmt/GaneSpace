@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #FFFFFF;
+    color: #172033;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body {
+    background-color: #090F1E;
+    color: #F1F5F9;
+  }
+
+  ::selection {
+    background-color: #D6F45A;
+    color: #102B69;
+  }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinSlowReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes cuteBlink {
+  0%, 44%, 48%, 92%, 96%, 100% {
+    transform: scaleY(1);
+  }
+  46%, 94% {
+    transform: scaleY(0.12);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 18s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spinSlowReverse 24s linear infinite;
+}
+
+.animate-float-gentle {
+  animation: floatGentle 4.5s ease-in-out infinite;
+}
+
+.animate-cute-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cuteBlink 4s infinite;
+}
+
+.bento-shadow {
+  box-shadow: 0 4px 0 0 #102B69;
+}
+
+.dark .bento-shadow {
+  box-shadow: 0 4px 0 0 #D6F45A;
+}
+
+.bento-shadow-hover {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+
+.bento-shadow-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 0 #102B69;
+}
+
+.dark .bento-shadow-hover:hover {
+  box-shadow: 0 8px 0 0 #D6F45A;
+}
+
+.bg-subtle-dots {
+  background-image: radial-gradient(rgba(16, 43, 105, 0.11) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-subtle-dots {
+  background-image: radial-gradient(rgba(214, 244, 90, 0.1) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow,
+  .animate-spin-slow-reverse,
+  .animate-float-gentle,
+  .animate-cute-blink {
+    animation: none;
+  }
+}
